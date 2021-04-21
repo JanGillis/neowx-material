@@ -14,6 +14,28 @@
       <div class="card-body text-center">
         <h3 class="h5-responsive $Extras.color-text">
           $getVar('obs.label.' + name)
+					#if $name == 'rain'
+	  				<i class="wi wi-umbrella"> </i>
+					#else if $name == 'UV'
+	  				<i class="wi wi-day-sunny"> </i>
+					#else if $name == 'outTemp'
+	  				<i class="wi wi-thermometer"> </i>
+					#else if $name == 'outHumidity'
+	  				<i class="wi wi-humidity"> </i>
+					#else if $name == 'barometer'
+	  				<i class="wi wi-barometer"> </i>
+					#else if $name == 'windchill'
+	  				<i class="wi wi-windy"> </i>
+					#else if $name == 'appTemp'
+	  				<i class="wi wi-thermometer"> </i>
+					#else if $name == 'dewpoint'
+	  				<i class="wi wi-thermometer"> </i>
+					#else if $name == 'heatindex'
+	  				<i class="wi wi-fire"> </i>
+					#else if $name == 'radiation'
+	  				<i class="wi wi-day-sunny"> </i>
+					#end if
+
 
 
           #if $name in $Extras.Appearance.show_trend_on and $getVar('trend.' + name + '.raw') is not None
@@ -230,12 +252,127 @@
 new ApexCharts(document.querySelector('#$id'), {
   ...graph_${type}_config,
   yaxis: {
+		#if $name =="UV"
+			min: 0,
+			max: 15,
+			tickAmount: 15
+		#else
     labels: {
       formatter: function (val) {
         return formatNumber(val, "$getVar('unit.format.' + name)") + "$getVar('unit.label.' + name)";
       }
     }
-  },
+		#end if
+  }
+	#if $name =="UV"
+	,
+	annotations:{
+		yaxis: [
+          {
+            y: 0,
+            y2: 3,
+            borderColor: "#000",
+            fillColor: "#96FF96",
+            opacity: 0.2,
+            label: {
+              borderColor: "#333",
+							position: 'left',
+							offsetX: 10,
+              style: {
+                fontSize: "10px",
+								color: "#fff",
+            		background: "#FF4560"
+              },
+							textAnchor: 'start',
+							offsetY: 15,
+              text: "Laag"
+            }
+          },
+          {
+            y: 3,
+            y2: 6,
+            borderColor: "#000",
+            fillColor: "#FFFF96",
+            opacity: 0.2,
+            label: {
+              borderColor: "#333",
+							position: 'left',
+							offsetX: 10,
+              style: {
+                fontSize: "10px",
+								color: "#fff",
+            		background: "#FF4560"
+              },
+							textAnchor: 'start',
+							offsetY: 15,
+              text: "Gemiddeld"
+            }
+          },
+          {
+            y: 6,
+            y2: 8,
+            borderColor: "#000",
+            fillColor: "#FFD296",
+            opacity: 0.2,
+            label: {
+              borderColor: "#333",
+							position: 'left',
+							offsetX: 10,
+              style: {
+                fontSize: "10px",
+								color: "#fff",
+            		background: "#FF4560"
+              },
+							textAnchor: 'start',
+							offsetY: 15,
+              text: "Hoog"
+            }
+          },
+          {
+            y: 8,
+            y2: 11,
+            borderColor: "#000",
+            fillColor: "#FF9696",
+            opacity: 0.2,
+            label: {
+              borderColor: "#333",
+							position: 'left',
+							offsetX: 10,
+              style: {
+                fontSize: "10px",
+								color: "#fff",
+            		background: "#FF4560"
+              },
+							textAnchor: 'start',
+							offsetY: 15,
+              text: "Zeer hoog"
+            }
+          },
+          {
+            y: 11,
+            y2: 15,
+            borderColor: "#000",
+            fillColor: "#DC96FF",
+            opacity: 0.2
+						,
+            label: {
+              borderColor: "#333",
+							position: 'left',
+							offsetX: 10,
+              style: {
+                fontSize: "10px",
+								color: "#fff",
+            		background: "#FF4560"
+              },
+							textAnchor: 'start',
+							offsetY: -35,
+              text: "Extreem"
+            }
+          }
+        ]	
+		}
+	#end if
+		,
   series: [
     {
       name: "$getVar('obs.label.' + series1)",
@@ -288,7 +425,8 @@ new ApexCharts(document.querySelector('#$id'), {
   $getChartJsCode("outTemp", "outTempchart", "area", "outTemp", "dewpoint")
 
   // Wind chill + Heat index + optional appTemp
-  #if "appTemp" in $Extras.Appearance.charts_order and $day.appTemp.has_data
+  //#if "appTemp" in $Extras.Appearance.charts_order and $day.appTemp.has_data
+  #if $day.appTemp.has_data
   $getChartJsCode("windchill", "windchillchart", "area", "windchill", "heatindex", "avg", "appTemp")
   #else
   $getChartJsCode("windchill", "windchillchart", "area", "windchill", "heatindex")

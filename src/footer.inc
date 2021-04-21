@@ -12,7 +12,7 @@
         <div class="row">
 
             ## Grid column
-            <div class="col-md-6 mt-md-0 mt-3">
+            <div class="col-md-3 mt-md-0 mt-3">
 
                 ## Content
                 <h5 class="text-uppercase">$Extras.Translations[$Extras.language].about</h5>
@@ -48,7 +48,7 @@
             <hr class="clearfix w-100 d-md-none pb-3">
 
             ## Grid column
-            <div class="col-md-3 mb-md-0 mb-3">
+            <div class="col-md-6 mb-md-0 mb-3">
 
                 #if $Extras.Footer.box_title != ""
                 <h5 class="text-uppercase">$Extras.Footer.box_title</h5>
@@ -61,7 +61,7 @@
             ## Grid column
 
             ## Grid column
-            <div class="col-md-3 mb-md-0 mb-3">
+            <div class="col-md-3 mb-md-0 mb-3 text-md-right">
 
                 ## Links
                 <h5 class="text-uppercase">$Extras.Translations[$Extras.language].links</h5>
